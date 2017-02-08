@@ -23,10 +23,4 @@ public class Recursion {
   private static boolean closeEnough(double n1, double n2) {
     return (Math.abs(n1 - n2) / Math.max(Math.abs(n1), Math.abs(n2)) <= Math.pow(10, -8));
   }
-
-  public static void main(String[] args) {
-    System.out.println(sqrt(152));
-    System.out.println(sqrt(144));
-    System.out.println(sqrt(1571248));
-  }
 }
