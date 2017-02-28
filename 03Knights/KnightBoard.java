@@ -1,79 +1,58 @@
 public class KnightBoard {
   private int[][] board;
+  private int[] colDir = {-1, 1, 2, 2, 1, -1, -2, -2};
+  private int[] rowDir = {-2, -2, -1, 1, 2, 2, 1, -1};
 
-  public KnightBoard(int startingRows, int startingCols) {
+  public KnightBoard (int startingRows, int startingCols) {
     board = new int[startingRows][startingCols];
   }
 
   public void solve() {
-
+    solveH(0,0,1);
   }
 
-  private boolean solveH(int row, int col, int level) {
-    if (level == board.length * board[0].length) {
+  private boolean solveH (int row, int col, int level) {
+    if (level > board.length * board[0].length) {
       return true;
     }
+    if (board[row][col] == 0) {
+      board[row][col] = level;
+      for (int i = 0, j = 0; i < rowDir.length && j < colDir.length; i++, j++) {
+        int rowOffset = rowDir[i];
+        int colOffset = colDir[j];
+        if ((row + rowOffset < board.length && row + rowOffset >= 0 )
+        && (col + colOffset < board[0].length && col + colOffset >= 0)) {
+          if (solveH(row + rowOffset, col + colOffset, level + 1)) {
+            return true;
+          }
+        }
 
+      }
+      board[row][col] = 0;
+    }
+    return false;
   }
 
   public String toString() {
-    String result = "\n";
-    for (int i = 0; i < board.length; i++) {
-      for (int j = 0; j < board[i].length; j++) {
-        result += giveSpace(board.length * board[i].length, board[i][j]) + board[i][j];
+    String result = "";
+    for (int r = 0; r < board.length; r++) {
+      for (int c = 0; c < board[0].length; c++) {
+        if (board[r][c] < 10) {
+          result += " " + board[r][c];
+        }
+        else {
+          result += board[r][c];
+        }
+        result += " ";
       }
       result += "\n";
     }
     return result;
   }
 
-  public String giveSpace(int area, int n) {
-    String result = " ";
-    if (area >= 10 && area < 100) {
-      if (n < 10) {
-        result += " ";
-      }
-    }
-    if (area >= 100 && area < 1000) {
-      if (n < 10) {
-        result += "  ";
-      }
-      if (n < 100) {
-        result += " ";
-      }
-    }
-    return result;
-  }
-
-  private void int[][] getSpace(int row, int col) {
-    if (board[row - 2][col - 1] == 0) {
-      return board[row - 2][col - 1];
-    }
-    if (board[row - 2][col + 1]; == 0) {
-      return board[row - 2][col + 1];
-    }
-    if (board[row - 1][col + 2] == 0) {
-      return board[row - 1][col + 2];
-    }
-    if (board[row + 1][col + 2] == 0) {
-      return board[row + 1][col + 2];
-    }
-    if (board[row + 2][col - 1] == 0) {
-      return board[row + 2][col - 1];
-    }
-    if (board[row + 2][col + 1] == 0) {
-      return board[row + 2][col + 1];
-    }
-    if (board[row - 1][col - 2] == 0) {
-      return board[row - 1][col - 2];
-    }
-    if (board[row] + 1[col - 2] == 0) {
-      return board[row] + 1[col - 2];
-    }
-  }
-
-  public static void main(String[]args) {
-    KnightBoard board = new KnightBoard(10, 10);
-    System.out.println(board);
+  public static void main (String[] args) {
+    KnightBoard b = new KnightBoard(4,3);
+    b.solve();
+    System.out.println(b);
   }
 }
