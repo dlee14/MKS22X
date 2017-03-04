@@ -12,6 +12,9 @@ public class Recursion {
   }
 
   public static double guessSqrt(double n, double guess) {
+    if (n == 0.0) {
+      return 0.0;
+    }
     if (closeEnough(n, Math.pow(guess, 2))) {
       return guess;
     } else {
@@ -20,7 +23,10 @@ public class Recursion {
     }
   }
 
-  private static boolean closeEnough(double n1, double n2) {
-    return (Math.abs(n1 - n2) / Math.max(Math.abs(n1), Math.abs(n2)) <= Math.pow(10, -8));
-  }
+  public static boolean closeEnough(double a, double b){
+	if(a==0.0 && b==0.0)return true;
+	if(a==0.0)return b < 0.00000000001;
+	if(b==0.0)return a < 0.00000000001;
+	return Math.abs(a-b)/a < 0.0001;//very generous %error accepted
+    }
 }
