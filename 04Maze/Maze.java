@@ -7,16 +7,6 @@ public class Maze{
   private int rowSize,colSize, rDir = -1, cDir = 0, sRow, sCol;
   private boolean debug = true;
 
-  /*Constructor loads a maze text file, and sets animate to false by default.
-  1. The file contains a rectangular ascii maze, made with the following 4 characters:
-  '#' - locations that cannot be moved onto
-  ' ' - locations that can be moved onto
-  'E' - the location of the goal (exactly 1 per file)
-  'S' - the location of the start(exactly 1 per file)
-
-  2. The maze has a border of '#' around the edges. So you don't have to check for out of bounds!
-  3. When the file is not found OR there is no E or S then: print an error and exit the program.
-  */
   public Maze(String filename) {
     try {
       int sCount = 0, eCount = 0;
@@ -84,7 +74,7 @@ public class Maze{
   private boolean solve(int row, int col) {
     if (animate){
       System.out.println("\033[2J\033[1;1H"+this);
-      wait(300);
+      wait(150);
     }
     if (solved(row, col)) {
       return true;
@@ -93,10 +83,8 @@ public class Maze{
       maze[row][col] = '@';
       if (solve(row + rDir, col + cDir)) {
         return true;
-      } else {
-        maze[row + rDir][col + cDir] = '.';
-        findDirection(row, col);
       }
+      maze[row + rDir][col + cDir] = '.';
     }
     return false;
   }
@@ -134,7 +122,7 @@ public class Maze{
     animate = b;
   }
 
-  private void wait(int millis){ //ADDED SORRY!
+  private void wait(int millis){
     try {
       Thread.sleep(millis);
     }
