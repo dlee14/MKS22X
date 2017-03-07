@@ -17,12 +17,6 @@ public class USACO {
     //N = amount of stomp digging
     
     readFile(filename);
-
-
-
-
-
-
     return 0;
   }
   
@@ -51,16 +45,17 @@ public class USACO {
       System.out.println("FILE NOT FOUND!!!");
     }
 
-
-
-    
   }
 
   public String toString() {
     String result = "\n";
     for (int i = 0; i < lake.length; i++) {
       for (int j = 0; j < lake[i].length; j++) {
+	if(lake[i][j] < 100) {
+        result += lake[i][j] + "  ";
+	} else {
         result += lake[i][j] + " ";
+	}
       }
       result += "\n";
     }

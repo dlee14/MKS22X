@@ -17,12 +17,6 @@ public class USACO {
     //N = amount of stomp digging
     
     readFile(filename);
-
-
-
-
-
-
     return 0;
   }
   
@@ -40,7 +34,7 @@ public class USACO {
       int fillerR = R, fillerC = C;
       while(scanner.hasNextLine() && fillerR > 0){
 	String row = scanner.nextLine();
-	String[] temp = row.split(" ");
+	temp = row.split(" ");
 	for(int i = 0; i < temp.length; i++){
 	   lake[R-fillerR][i]=Integer.parseInt(temp[i]);
 	}
@@ -51,9 +45,6 @@ public class USACO {
       System.out.println("FILE NOT FOUND!!!");
     }
 
-
-
-    
   }
 
   public String toString() {
