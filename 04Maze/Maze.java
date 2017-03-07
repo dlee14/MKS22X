@@ -6,6 +6,15 @@ public class Maze{
   private boolean animate;
   private int rowSize,colSize, rDir = 0, cDir = 0, sRow, sCol;
   private boolean debug = true;
+  public static final String ANSI_RESET = "\u001B[0m";
+  public static final String ANSI_BLACK = "\u001B[30m";
+  public static final String ANSI_RED = "\u001B[31m";
+  public static final String ANSI_GREEN = "\u001B[32m";
+  public static final String ANSI_YELLOW = "\u001B[33m";
+  public static final String ANSI_BLUE = "\u001B[34m";
+  public static final String ANSI_PURPLE = "\u001B[35m";
+  public static final String ANSI_CYAN = "\u001B[36m";
+  public static final String ANSI_WHITE = "\u001B[37m";
 
   public Maze(String filename) {
     try {
@@ -71,7 +80,7 @@ public class Maze{
   private boolean solve(int row, int col) {
     if (animate){
       System.out.println("\033[2J\033[1;1H"+this);
-      wait(50);
+      wait(1);
     }
     if (maze[row][col] == 'E') {
       return true;
@@ -90,17 +99,17 @@ public class Maze{
   }
 
   private boolean findDirection(int row, int col) {
-    if (maze[row - 1][col] == ' ') {
+    if (maze[row + 1][col] == ' ') {
+      rDir = 1;
+      cDir = 0;
+      return true;
+    } else if (maze[row - 1][col] == ' ') {
       rDir = -1;
       cDir = 0;
       return true;
     } else if (maze[row][col + 1] == ' ') {
       rDir = 0;
       cDir = 1;
-      return true;
-    } else if (maze[row + 1][col] == ' ') {
-      rDir = 1;
-      cDir = 0;
       return true;
     } else if (maze[row][col - 1] == ' ') {
       rDir = 0;
@@ -146,4 +155,18 @@ public class Maze{
     return result;
   }
 
+  public String showSolution() {
+    String result = "\n";
+    for (int i = 0; i < maze.length; i++) {
+      for (int j = 0; j < maze[i].length; j++) {
+        if (maze[i][j] == '@') {
+          result += maze[i][j] + " ";
+        } else {
+          result += "  ";
+        }
+      }
+      result += "\n";
+    }
+    return result;
+  }
 }
