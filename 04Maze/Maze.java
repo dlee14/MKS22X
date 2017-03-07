@@ -4,7 +4,7 @@ import java.io.*;
 public class Maze{
   private char[][] maze;
   private boolean animate;
-  private int rowSize,colSize, rDir = -1, cDir = 0, sRow, sCol;
+  private int rowSize,colSize, rDir = 0, cDir = 0, sRow, sCol;
   private boolean debug = true;
 
   public Maze(String filename) {
@@ -54,18 +54,15 @@ public class Maze{
   }
 
   public boolean solve() {
-    maze[sRow][sCol] = '@';
+    maze[sRow][sCol] = ' ';
     return solve(sRow, sCol);
   }
 
   /*
   Recursive Solve function:
-
   A solved maze has a path marked with '@' from S to E.
-
   Returns true when the maze is solved,
   Returns false when the maze has no solution.
-
   Postcondition:
   The S is replaced with '@' but the 'E' is not.
   All visited spots that were not part of the solution are changed to '.'
@@ -74,17 +71,20 @@ public class Maze{
   private boolean solve(int row, int col) {
     if (animate){
       System.out.println("\033[2J\033[1;1H"+this);
-      wait(150);
+      wait(50);
     }
-    if (solved(row, col)) {
+    if (maze[row][col] == 'E') {
       return true;
     }
-    if (findDirection(row, col)) {
+    if (maze[row][col] == ' ') {
       maze[row][col] = '@';
-      if (solve(row + rDir, col + cDir)) {
-        return true;
+      for (int i = 0; i < 4; i++) {
+        findDirection(row,col);
+        if (solve(row + rDir, col + cDir)) {
+          return true;
+        }
       }
-      maze[row + rDir][col + cDir] = '.';
+      maze[row][col] = '.';
     }
     return false;
   }
