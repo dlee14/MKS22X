@@ -1,8 +1,7 @@
 public class Driver {
   public static void main(String[] args) {
     USACO usaco = new USACO();
-    usaco.bronze("test2.txt");
-
-    System.out.println(usaco);
+    System.out.println(usaco.silver("test3.txt"));
+    System.out.println(usaco.toStringInt());
   }
 }
