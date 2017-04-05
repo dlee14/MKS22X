@@ -38,7 +38,7 @@ public class Merge {
     }
   }
 
-  public static void main(String[] args) {
+  /*public static void main(String[] args) {
     int[] data1 = {1,3,5,7,9,10,15,16,19,25,28,34,37};
     int[] data2 = {2,4,6,8,10,17,19,21,25,28};
     int size = 100, max = size, min = -1 * size, number = 0;
@@ -52,5 +52,5 @@ public class Merge {
 
     mergeSort(test);
     System.out.println(Arrays.toString(test));
-  }
+  }*/
 }
