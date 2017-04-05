@@ -69,11 +69,28 @@ public class MyLinkedList {
   }
 
   private void addAfter(LNode location, LNode toBeAdded) {
-
+    if (location == null) {
+      throw new NullPointerException("location is null");
+    }
+    if (toBeAdded == null) {
+      throw new NullPointerException("toBeAdded is null");
+    }
+    toBeAdded.setNext(location.getNext());
+    toBeAdded.setPrev(location);
+    location.getNext().setPrev(toBeAdded);
+    location.setNext(toBeAdded);
+    size++;
   }
 
   private void remove(LNode target) {
+    target.getPrev().setNext(target.getNext());
+    target.getNext().setPrev(target.getPrev());
+    size--;
+  }
 
+  public int remove(int index) {
+    remove(getNthNode(index));
+    return getNthNode(index).getValue();
   }
 
   public int size() {
@@ -99,11 +116,15 @@ public class MyLinkedList {
     list.add(0);
     list.add(1);
     list.add(2);
-    list.add(3, 10);
     list.add(3);
     list.add(4);
     list.add(5);
 
     System.out.println(list);
+
+    list.remove(2);
+
+    System.out.println(list);
+
   }
 }
