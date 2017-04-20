@@ -1,6 +1,61 @@
-public class MyLinkedList {
+import java.util.*;
+
+public class MyLinkedList implements Iterable<Integer> {
   private int size;
   private LNode head, tail;
+
+  private class LNode {
+    private int value;
+    private LNode next, prev;
+
+    public LNode(int value) {
+      this.value = value;
+      next = null;
+      prev = null;
+    }
+
+    public void setNext(LNode next) {
+      this.next = next;
+    }
+
+    public void setPrev(LNode prev) {
+      this.prev = prev;
+    }
+
+    public void setValue(int newValue) {
+      value = newValue;
+    }
+
+    public LNode getNext() {
+      return next;
+    }
+
+    public LNode getPrev() {
+      return prev;
+    }
+
+    public int getValue() {
+      return value;
+    }
+
+    public String toString() {
+      String result = "";
+      if (prev == null) {
+        result += "(null)";
+      } else {
+        result += "(" + prev.getValue() + ")";
+      }
+      result += value;
+      if (next == null) {
+        result += "(null)";
+      } else {
+        result += "(" + next.getValue() + ")";
+      }
+      return result;
+    }
+
+  }
+
 
   public MyLinkedList() {
     size = 0;
@@ -12,6 +67,9 @@ public class MyLinkedList {
   }
 
   public boolean add(int index, int value) {
+    if (index < 0) {
+      throw new IndexOutOfBoundsException("Invalid index for add: " + index);
+    }
     if (index == 0) {
       if (size == 0) {
         head = new LNode(value);
@@ -47,6 +105,9 @@ public class MyLinkedList {
   }
 
   public int set(int index, int newValue) {
+    if (index < 0) {
+      throw new IndexOutOfBoundsException("Invalid index for add: " + index);
+    }
     LNode current = head;
     for (int i = 0; i < index; i++) {
       current = current.getNext();
@@ -89,6 +150,9 @@ public class MyLinkedList {
   }
 
   public int remove(int index) {
+    if (index < 0) {
+      throw new IndexOutOfBoundsException("Invalid index for add: " + index);
+    }
     remove(getNthNode(index));
     return getNthNode(index).getValue();
   }
@@ -110,21 +174,35 @@ public class MyLinkedList {
     return result;
   }
 
-  public static void main(String[] args) {
-    MyLinkedList list = new MyLinkedList();
+  public Iterator<Integer> iterator() {
+    return new MyLinkedListIterator(this);
+  }
 
-    list.add(0);
-    list.add(1);
-    list.add(2);
-    list.add(3);
-    list.add(4);
-    list.add(5);
+  private class MyLinkedListIterator implements Iterator<Integer> {
+    private MyLinkedList linkedList;
+    private LNode current = head;
 
-    System.out.println(list);
+    public MyLinkedListIterator(MyLinkedList linkedList) {
+      this.linkedList = linkedList;
+    }
 
-    list.remove(2);
+    public boolean hasNext() {
+      return current != null;
+    }
 
-    System.out.println(list);
+    public Integer next() {
+      if (!hasNext()) {
+        throw new NoSuchElementException();
+      }
+      else {
+        int value  = current.value;
+        current = current.next;
+        return value;
+      }
+    }
 
+    public void remove() {
+      throw new UnsupportedOperationException();
+    }
   }
 }
