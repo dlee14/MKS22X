@@ -1,3 +1,5 @@
+import java.util.*;
+
 public class ExpressionTree {
 
   /* return the value of the specified expression tree*/
@@ -37,8 +39,21 @@ public class ExpressionTree {
     return getLeft().toStringPostfix() + " " + getRight().toStringPostfix() + " " + getOp();
   }
 
-  public ExpressionTree postToString() {
-    
+  public ExpressionTree postToString(String postfix) {
+    String[] token = postfix.split(" ");
+    Stack<ExpressionTree> stack = new Stack<ExpressionTree>();
+    for (int i = 0; i < token.length; i++) {
+      if (isOp(token[i])) {
+        ExpressionTree right = stack.pop();
+        ExpressionTree old = new ExpressionTree(token[i].charAt(0), stack.pop(), right);
+        ExpressionTree value = new ExpressionTree(old.evaluate());
+        stack.push(value);
+      } else {
+        ExpressionTree tree = new ExpressionTree(Double.parseDouble(token[i]));
+        stack.push(tree);
+      }
+    }
+    return stack.pop();
   }
 
   /* return the expression as a prefix notation string without parenthesis*/
@@ -55,7 +70,7 @@ public class ExpressionTree {
   private ExpressionTree left,right;
 
   /* ExpressionTrees are immutable, so no issues with linking them across multiple
-  *  expressions. The can be constructed with a value, or operator and 2
+  *  expressions. They can be constructed with a value, or operator and 2
   * sub-ExpressionTrees*/
   public ExpressionTree(double value) {
     this.value = value;
@@ -88,6 +103,11 @@ public class ExpressionTree {
   private boolean isOp() {
     return hasChildren();
   }
+
+  private boolean isOp(String input) {
+    return (input.equals("+") || input.equals("-") || input.equals("/") || input.equals("*"));
+  }
+
   private boolean isValue() {
     return !hasChildren();
   }
@@ -101,28 +121,30 @@ public class ExpressionTree {
     ExpressionTree b = new ExpressionTree(2.0);
 
     ExpressionTree c = new ExpressionTree('+',a,b);
+    String post = c.toStringPostfix();
     System.out.println(c);
     System.out.println(c.toStringPostfix());
     System.out.println(c.toStringPrefix());
-    System.out.println(c.evaluate());
+    System.out.println(c.evaluate() + "\n");
 
     ExpressionTree d = new ExpressionTree('*',c,new ExpressionTree(3.5));
     System.out.println(d);
     System.out.println(d.toStringPostfix());
     System.out.println(d.toStringPrefix());
-    System.out.println(d.evaluate());
+    System.out.println(d.evaluate() + "\n");
+
 
     ExpressionTree ex = new ExpressionTree('-',d,new ExpressionTree(1.0));
     System.out.println(ex);
     System.out.println(ex.toStringPostfix());
     System.out.println(ex.toStringPrefix());
-    System.out.println(ex.evaluate());
+    System.out.println(ex.evaluate() + "\n");
 
     ex = new ExpressionTree('+',new ExpressionTree(1.0),ex);
     System.out.println(ex);
     System.out.println(ex.toStringPostfix());
     System.out.println(ex.toStringPrefix());
-    System.out.println(ex.evaluate());
+    System.out.println(ex.evaluate() + "\n");
 
     ex = new ExpressionTree('/',ex,new ExpressionTree(2.0));
     System.out.println(ex);
