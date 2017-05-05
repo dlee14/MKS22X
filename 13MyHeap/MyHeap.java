@@ -56,15 +56,16 @@ public class MyHeap {
   private void pushUp() {
     int parent = getParent(size);
     int index = size;
-    while (getParent(index) > 0) {
+    boolean stop = false;
+    while (getParent(index) > 0 && stop != true) {
       parent = getParent(index);
-      System.out.println(array[parent].compareTo(array[index]));
       if (array[parent].compareTo(array[index]) < 0) {
-        System.out.println("trigger");
         String temp = array[parent];
         array[parent] = array[index];
         array[index] = temp;
         index = parent;
+      } else {
+        stop = true;
       }
     }
   }
@@ -81,10 +82,17 @@ public class MyHeap {
   }
 
   public int getChild(int index) {
-    if (index * 2 < size && array[index].compareTo(array[index * 2]) < 0) {
+    boolean left = index * 2 < size && array[index].compareTo(array[index * 2]) < 0;
+    boolean right = index * 2 + 1 < size && array[index].compareTo(array[index * 2 + 1]) < 0;
+    if (left && right) {
+      if (array[index * 2].compareTo(array[index * 2 + 1]) > 0) {
+        return index * 2;
+      } else {
+        return index * 2 + 1;
+      }
+    } else if (left) {
       return index * 2;
-    }
-    if (index * 2 + 1 < size && array[index].compareTo(array[index * 2 + 1]) < 0) {
+    } else if (right) {
       return index * 2 + 1;
     }
     return -1;
@@ -122,30 +130,26 @@ public class MyHeap {
   }
 
   public static void main(String[] args) {
-    int size = 10, max = size, min = 0;
+    int size = 100, max = size, min = size * -1;
     String[] test = new String[size];
+    String alphabet = "abcdefghijklmnopqrstuvwxyz";
     for (int i = 0; i < size; i++) {
       Random rand = new Random();
-      test[i] = "" + rand.nextInt(max + 1 - min) + min;
+      test[i] = "" + alphabet.charAt(rand.nextInt(alphabet.length()));
     }
-
     MyHeap heap = new MyHeap();
-    // for (int i = 0; i < size; i++) {
-    //   System.out.println("what");
-    //   heap.add(test[i]);
-    // }
-    heap.add("1");
-    heap.add("2");
-    heap.add("3");
-    heap.add("4");
-    heap.add("5");
-    heap.add("6");
-    heap.add("7");
-    heap.add("8");
-    heap.add("9");
-    System.out.println(heap);
-    heap.add("10");
-    System.out.println(heap);
+    for (int i = 0; i < size; i++) {
+      heap.add(test[i]);
+    }
     System.out.println("size: " + heap.getSize());
+    System.out.println(heap);
+
+
+
+    String[] sorted = new String[size];
+    for(int i = 0; i < size; i++) {
+      sorted[i] = heap.remove();
+    }
+    System.out.println(Arrays.toString(sorted));
   }
 }
