@@ -1,8 +1,10 @@
 import java.util.*;
+import java.util.NoSuchElementException;
+import java.io.*;
 
 public class MyHeap {
   private String[] array;
-  private boolean max;
+  private int constant;
   private int cap, size;
 
   public MyHeap() {
@@ -10,6 +12,7 @@ public class MyHeap {
     size = 0;
     array = new String[cap];
     array[0] = null;
+    constant = 1;
   }
 
   public MyHeap(boolean max) {
@@ -17,7 +20,11 @@ public class MyHeap {
     size = 0;
     array = new String[cap];
     array[0] = null;
-    this.max = max;
+    if (max) {
+      constant = 1;
+    } else {
+      constant = -1;
+    }
   }
 
   private void resize() {
@@ -39,7 +46,9 @@ public class MyHeap {
   }
 
   public String remove() {
-    //NoSuchElementException()
+    if (size == 0) {
+      throw new NoSuchElementException();
+    }
     String root = array[1];
     array[1] = array[size];
     array[size] = null;
@@ -49,7 +58,9 @@ public class MyHeap {
   }
 
   public String peek() {
-    //NoSuchElementException()
+    if (size == 0) {
+      throw new NoSuchElementException();
+    }
     return array[1];
   }
 
@@ -59,7 +70,7 @@ public class MyHeap {
     boolean stop = false;
     while (getParent(index) > 0 && stop != true) {
       parent = getParent(index);
-      if (array[parent].compareTo(array[index]) < 0) {
+      if ((constant * (array[parent].compareTo(array[index]))) < 0) {
         String temp = array[parent];
         array[parent] = array[index];
         array[index] = temp;
@@ -82,10 +93,10 @@ public class MyHeap {
   }
 
   public int getChild(int index) {
-    boolean left = index * 2 < size && array[index].compareTo(array[index * 2]) < 0;
-    boolean right = index * 2 + 1 < size && array[index].compareTo(array[index * 2 + 1]) < 0;
+    boolean left = index * 2 < size && (constant * array[index].compareTo(array[index * 2])) < 0;
+    boolean right = index * 2 + 1 < size && (constant * array[index].compareTo(array[index * 2 + 1])) < 0;
     if (left && right) {
-      if (array[index * 2].compareTo(array[index * 2 + 1]) > 0) {
+      if ((constant * array[index * 2].compareTo(array[index * 2 + 1])) > 0) {
         return index * 2;
       } else {
         return index * 2 + 1;
@@ -102,12 +113,12 @@ public class MyHeap {
     int index = 1;
     while (getChild(index) > 0) {
       int child = getChild(index);
-      if (array[index].compareTo(array[index * 2]) < 0) {
+      if ((constant * array[index].compareTo(array[index * 2])) < 0) {
         String temp = array[child];
         array[child] = array[index];
         array[index] = temp;
         index = child;
-      } else if (array[index].compareTo(array[index * 2 + 1]) < 0) {
+      } else if ((constant * array[index].compareTo(array[index * 2 + 1])) < 0) {
         String temp = array[child];
         array[child] = array[index];
         array[index] = temp;
@@ -122,34 +133,37 @@ public class MyHeap {
 
   public String toString() {
     String result = "[ ";
-    for (int i = 0; i < array.length; i++) {
+    for (int i = 0; i < size + 1; i++) {
       result += array[i] + " ";
     }
     result += "]";
     return result;
   }
 
+  public String[] heapSort(){
+    String[] sorted = new String[size];
+    for (int i = size - 1; i >= 0; i--) {
+      sorted[i] = this.remove();
+    }
+    return sorted;
+  }
+
   public static void main(String[] args) {
-    int size = 100, max = size, min = size * -1;
+    int size = 10, max = size, min = size * -1;
     String[] test = new String[size];
     String alphabet = "abcdefghijklmnopqrstuvwxyz";
     for (int i = 0; i < size; i++) {
       Random rand = new Random();
       test[i] = "" + alphabet.charAt(rand.nextInt(alphabet.length()));
     }
-    MyHeap heap = new MyHeap();
+
+    MyHeap heap = new MyHeap(true);
     for (int i = 0; i < size; i++) {
       heap.add(test[i]);
     }
-    System.out.println("size: " + heap.getSize());
-    System.out.println(heap);
 
+    System.out.println(heap + "\n");
 
-
-    String[] sorted = new String[size];
-    for(int i = 0; i < size; i++) {
-      sorted[i] = heap.remove();
-    }
-    System.out.println(Arrays.toString(sorted));
+    System.out.println(Arrays.toString(heap.heapSort()));
   }
 }
