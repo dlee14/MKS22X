@@ -2,7 +2,7 @@ import java.util.*;
 
 public class Merge {
 
-  public static void mergeSort(int[] data) {
+  public static void mergesort(int[] data) {
     int[] data1 = new int[data.length / 2];
     int[] data2 = new int[data.length - data1.length];
     if (data.length > 1) {
@@ -13,8 +13,8 @@ public class Merge {
           data2[i - data1.length] = data[i];
         }
       }
-      mergeSort(data1);
-      mergeSort(data2);
+      mergesort(data1);
+      mergesort(data2);
       merge(data1, data2, data);
     }
   }

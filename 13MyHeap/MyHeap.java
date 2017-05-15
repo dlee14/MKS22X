@@ -4,8 +4,7 @@ import java.io.*;
 
 public class MyHeap {
   private String[] array;
-  private int constant;
-  private int cap, size;
+  private int constant, cap, size;
 
   public MyHeap() {
     cap = 1;
@@ -55,6 +54,24 @@ public class MyHeap {
     size--;
     pushDown();
     return root;
+  }
+
+  private void pushDown() {
+    int index = 1;
+    while (getChild(index) > 0) {
+      int child = getChild(index);
+      if ((constant * array[index].compareTo(array[index * 2])) < 0) {
+        String temp = array[child];
+        array[child] = array[index];
+        array[index] = temp;
+        index = child;
+      } else if ((constant * array[index].compareTo(array[index * 2 + 1])) < 0) {
+        String temp = array[child];
+        array[child] = array[index];
+        array[index] = temp;
+        index = child;
+      }
+    }
   }
 
   public String peek() {
@@ -109,24 +126,6 @@ public class MyHeap {
     return -1;
   }
 
-  private void pushDown() {
-    int index = 1;
-    while (getChild(index) > 0) {
-      int child = getChild(index);
-      if ((constant * array[index].compareTo(array[index * 2])) < 0) {
-        String temp = array[child];
-        array[child] = array[index];
-        array[index] = temp;
-        index = child;
-      } else if ((constant * array[index].compareTo(array[index * 2 + 1])) < 0) {
-        String temp = array[child];
-        array[child] = array[index];
-        array[index] = temp;
-        index = child;
-      }
-    }
-  }
-
   public int getSize() {
     return size;
   }
@@ -149,7 +148,7 @@ public class MyHeap {
   }
 
   public static void main(String[] args) {
-    int size = 10, max = size, min = size * -1;
+    int size = 100, max = size, min = size * -1;
     String[] test = new String[size];
     String alphabet = "abcdefghijklmnopqrstuvwxyz";
     for (int i = 0; i < size; i++) {

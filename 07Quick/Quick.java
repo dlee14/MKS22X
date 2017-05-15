@@ -2,7 +2,7 @@ import java.util.*;
 
 public class Quick{
 
-  public static void quickSort(int[] data) {
+  public static void quicksort(int[] data) {
     quickH(data, 0, data.length - 1);
   }
 
@@ -48,7 +48,7 @@ public class Quick{
   }
 
   private static int quickSelect(int[] data, int k) {
-    quickSort(data);
+    quicksort(data);
     return data[k];
   }
 
