@@ -5,6 +5,10 @@ public class FrontierPriorityQueue implements Frontier {
     locations = new PriorityQueue();
   }
 
+  public FrontierPriorityQueue(boolean minimum) {
+    locations = new PriorityQueue(minimum);
+  }
+
   public void add(Location location) {
     locations.add(location);
   }

@@ -57,8 +57,16 @@ public class MazeSolver {
         current = frontierstack.next();
         currentRow = current.getRow();
         currentCol = current.getCol();
-        System.out.println(toString());
       }
+      if (board.get(currentRow, currentCol) == 'E') {
+        while (current.getPrevious() != null) {
+          answer.set(currentRow, currentCol, '@');
+          current = current.getPrevious();
+          currentRow = current.getRow();
+          currentCol = current.getCol();
+        }
+      }
+      System.out.println(answer);
     } else
     if (style == 1) {
       //Breadth First Search
@@ -99,8 +107,16 @@ public class MazeSolver {
         current = frontierqueue.next();
         currentRow = current.getRow();
         currentCol = current.getCol();
-        System.out.println(toString());
       }
+      if (board.get(currentRow, currentCol) == 'E') {
+        while (current.getPrevious() != null) {
+          answer.set(currentRow, currentCol, '@');
+          current = current.getPrevious();
+          currentRow = current.getRow();
+          currentCol = current.getCol();
+        }
+      }
+      System.out.println(answer);
     } else
     if (style == 2) {
       //BestFirst
@@ -146,13 +162,21 @@ public class MazeSolver {
         current = priorityqueue.next();
         currentRow = current.getRow();
         currentCol = current.getCol();
-        System.out.println(toString(100));
       }
+      if (board.get(currentRow, currentCol) == 'E') {
+        while (current.getPrevious() != null) {
+          answer.set(currentRow, currentCol, '@');
+          current = current.getPrevious();
+          currentRow = current.getRow();
+          currentCol = current.getCol();
+        }
+      }
+      System.out.println(answer);
     } else
     if (style == 3) {
       //A*
       //start + end
-      FrontierPriorityQueue priorityqueue = new FrontierPriorityQueue();
+      FrontierPriorityQueue priorityqueue = new FrontierPriorityQueue(true);
       start.setAstar(true);
       priorityqueue.add(start);
       Location current = priorityqueue.peek();
@@ -198,8 +222,16 @@ public class MazeSolver {
         current = priorityqueue.next();
         currentRow = current.getRow();
         currentCol = current.getCol();
-        System.out.println(toString(100));
       }
+      if (board.get(currentRow, currentCol) == 'E') {
+        while (current.getPrevious() != null) {
+          answer.set(currentRow, currentCol, '@');
+          current = current.getPrevious();
+          currentRow = current.getRow();
+          currentCol = current.getCol();
+        }
+      }
+      System.out.println(answer);
     }
   }
 

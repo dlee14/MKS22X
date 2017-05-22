@@ -4,13 +4,22 @@ import java.io.*;
 
 public class PriorityQueue {
   private Location[] array;
-  private int cap, size;
+  private int cap, size, constant;
 
   public PriorityQueue() {
     cap = 1;
     size = 0;
     array = new Location[cap];
     array[0] = null;
+    constant = 1;
+  }
+
+  public PriorityQueue(boolean minimum) {
+    cap = 1;
+    size = 0;
+    array = new Location[cap];
+    array[0] = null;
+    constant = -1;
   }
 
   private void resize() {
@@ -47,12 +56,12 @@ public class PriorityQueue {
     int index = 1;
     while (getChild(index) > 0) {
       int child = getChild(index);
-      if (array[index].compareTo(array[index * 2]) < 0) {
+      if ((constant * (array[index].compareTo(array[index * 2]))) < 0) {
         Location temp = array[child];
         array[child] = array[index];
         array[index] = temp;
         index = child;
-      } else if (array[index].compareTo(array[index * 2 + 1]) < 0) {
+      } else if ((constant * (array[index].compareTo(array[index * 2 + 1]))) < 0) {
         Location temp = array[child];
         array[child] = array[index];
         array[index] = temp;
@@ -74,7 +83,7 @@ public class PriorityQueue {
     boolean stop = false;
     while (getParent(index) > 0 && stop != true) {
       parent = getParent(index);
-      if ((array[parent].compareTo(array[index])) < 0) {
+      if ((constant * (array[parent].compareTo(array[index]))) < 0) {
         Location temp = array[parent];
         array[parent] = array[index];
         array[index] = temp;
@@ -97,10 +106,10 @@ public class PriorityQueue {
   }
 
   public int getChild(int index) {
-    boolean left = index * 2 < size && array[index].compareTo(array[index * 2]) < 0;
-    boolean right = index * 2 + 1 < size && array[index].compareTo(array[index * 2 + 1]) < 0;
+    boolean left = index * 2 < size && (constant * (array[index].compareTo(array[index * 2]))) < 0;
+    boolean right = index * 2 + 1 < size && (constant * (array[index].compareTo(array[index * 2 + 1]))) < 0;
     if (left && right) {
-      if (array[index * 2].compareTo(array[index * 2 + 1]) > 0) {
+      if ((constant * (array[index * 2].compareTo(array[index * 2 + 1]))) > 0) {
         return index * 2;
       } else {
         return index * 2 + 1;

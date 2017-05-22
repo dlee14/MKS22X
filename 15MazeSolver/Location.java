@@ -52,7 +52,7 @@ public class Location implements Comparable<Location> {
   }
 
   public int compareTo(Location other) {
-    return (this.getDistStart() + this.getDistEnd()) - (other.getDistStart() + other.getDistEnd());
+    return (this.getDistEnd() - this.getDistStart()) - (other.getDistEnd() - other.getDistStart());
   }
 
   public String toString() {
