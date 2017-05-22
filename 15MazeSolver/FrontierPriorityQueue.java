@@ -24,4 +24,8 @@ public class FrontierPriorityQueue implements Frontier {
   public int getSize() {
     return locations.getSize();
   }
+
+  public String print() {
+    return locations.toString();
+  }
 }

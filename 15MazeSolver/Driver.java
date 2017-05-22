@@ -3,6 +3,7 @@ import java.util.*;
 public class Driver {
   public static void main(String[] args) {
     MazeSolver solver = new MazeSolver("data3.txt");
-    solver.solve(2);
+    solver.solve(3);
+    System.out.println(solver);
   }
 }

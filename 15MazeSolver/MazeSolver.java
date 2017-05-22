@@ -1,14 +1,8 @@
 public class MazeSolver {
-  private Maze board, answer;
+  private Maze board;
 
   public MazeSolver(String filename) {
     board = new Maze(filename);
-    answer = new Maze(filename);
-  }
-
-  public MazeSolver(String filename, boolean animate) {
-    board = new Maze(filename);
-    answer = new Maze(filename);
   }
 
   public void solve() {
@@ -32,24 +26,36 @@ public class MazeSolver {
           if (i == 0) {
             Location next = new Location(currentRow - 1, currentCol, current, 0, 0, false);
             if (isEmpty(next)) {
+              board.set(currentRow - 1, currentCol, '?');
+              frontierstack.add(next);
+            } else if (board.get(currentRow - 1, currentCol) == 'E') {
               frontierstack.add(next);
             }
           } else
           if (i == 1) {
             Location next = new Location(currentRow, currentCol - 1, current, 0, 0, false);
             if (isEmpty(next)) {
+              board.set(currentRow, currentCol - 1, '?');
+              frontierstack.add(next);
+            } else if (board.get(currentRow, currentCol - 1) == 'E') {
               frontierstack.add(next);
             }
           } else
           if (i == 2) {
             Location next = new Location(currentRow + 1, currentCol, current, 0, 0, false);
             if (isEmpty(next)) {
+              board.set(currentRow + 1, currentCol, '?');
+              frontierstack.add(next);
+            } else if (board.get(currentRow + 1, currentCol) == 'E') {
               frontierstack.add(next);
             }
           } else
           if (i == 3) {
             Location next = new Location(currentRow, currentCol + 1, current, 0, 0, false);
             if (isEmpty(next)) {
+              board.set(currentRow, currentCol + 1, '?');
+              frontierstack.add(next);
+            } else if (board.get(currentRow, currentCol + 1) == 'E') {
               frontierstack.add(next);
             }
           }
@@ -57,16 +63,17 @@ public class MazeSolver {
         current = frontierstack.next();
         currentRow = current.getRow();
         currentCol = current.getCol();
+        System.out.println(board.toString(25));
       }
       if (board.get(currentRow, currentCol) == 'E') {
         while (current.getPrevious() != null) {
-          answer.set(currentRow, currentCol, '@');
+          board.set(currentRow, currentCol, '@');
           current = current.getPrevious();
           currentRow = current.getRow();
           currentCol = current.getCol();
         }
       }
-      System.out.println(answer);
+      // System.out.println(answer);
     } else
     if (style == 1) {
       //Breadth First Search
@@ -82,24 +89,36 @@ public class MazeSolver {
           if (i == 0) {
             Location next = new Location(currentRow - 1, currentCol, current, 0, 0, false);
             if (isEmpty(next)) {
+              board.set(currentRow - 1, currentCol, '?');
+              frontierqueue.add(next);
+            } else if (board.get(currentRow - 1, currentCol) == 'E') {
               frontierqueue.add(next);
             }
           } else
           if (i == 1) {
             Location next = new Location(currentRow, currentCol - 1, current, 0, 0, false);
             if (isEmpty(next)) {
+              board.set(currentRow, currentCol - 1, '?');
+              frontierqueue.add(next);
+            } else if (board.get(currentRow, currentCol - 1) == 'E') {
               frontierqueue.add(next);
             }
           } else
           if (i == 2) {
             Location next = new Location(currentRow + 1, currentCol, current, 0, 0, false);
             if (isEmpty(next)) {
+              board.set(currentRow + 1, currentCol, '?');
+              frontierqueue.add(next);
+            } else if (board.get(currentRow + 1, currentCol) == 'E') {
               frontierqueue.add(next);
             }
           } else
           if (i == 3) {
             Location next = new Location(currentRow, currentCol + 1, current, 0, 0, false);
             if (isEmpty(next)) {
+              board.set(currentRow, currentCol + 1, '?');
+              frontierqueue.add(next);
+            } else if (board.get(currentRow, currentCol + 1) == 'E') {
               frontierqueue.add(next);
             }
           }
@@ -107,21 +126,21 @@ public class MazeSolver {
         current = frontierqueue.next();
         currentRow = current.getRow();
         currentCol = current.getCol();
+        System.out.println(board.toString(25));
       }
       if (board.get(currentRow, currentCol) == 'E') {
         while (current.getPrevious() != null) {
-          answer.set(currentRow, currentCol, '@');
+          board.set(currentRow, currentCol, '@');
           current = current.getPrevious();
           currentRow = current.getRow();
           currentCol = current.getCol();
         }
       }
-      System.out.println(answer);
     } else
     if (style == 2) {
       //BestFirst
       //end
-      FrontierPriorityQueue priorityqueue = new FrontierPriorityQueue();
+      FrontierPriorityQueue priorityqueue = new FrontierPriorityQueue(true);
       priorityqueue.add(board.getStart());
       Location current = priorityqueue.peek();
       int currentRow = current.getRow();
@@ -133,28 +152,40 @@ public class MazeSolver {
           if (i == 0) {
             Location next = new Location(currentRow, currentCol + 1, current, 0, 0, false);
             if (isEmpty(next)) {
-              next.setDistStart(next.calcDist(start));
+              board.set(currentRow, currentCol + 1, '?');
+              next.setDistEnd(next.calcDist(end));
+              priorityqueue.add(next);
+            } else if (board.get(currentRow , currentCol + 1) == 'E') {
               priorityqueue.add(next);
             }
           } else
           if (i == 1) {
             Location next = new Location(currentRow, currentCol - 1, current, 0, 0, false);
             if (isEmpty(next)) {
-              next.setDistStart(next.calcDist(start));
+              board.set(currentRow, currentCol - 1, '?');
+              next.setDistEnd(next.calcDist(end));
+              priorityqueue.add(next);
+            } else if (board.get(currentRow, currentCol - 1) == 'E') {
               priorityqueue.add(next);
             }
           } else
           if (i == 2) {
             Location next = new Location(currentRow + 1, currentCol, current, 0, 0, false);
             if (isEmpty(next)) {
-              next.setDistStart(next.calcDist(start));
+              board.set(currentRow + 1, currentCol, '?');
+              next.setDistEnd(next.calcDist(end));
+              priorityqueue.add(next);
+            } else if (board.get(currentRow + 1, currentCol) == 'E') {
               priorityqueue.add(next);
             }
           } else
           if (i == 3) {
             Location next = new Location(currentRow - 1, currentCol, current, 0, 0, false);
             if (isEmpty(next)) {
-              next.setDistStart(next.calcDist(start));
+              board.set(currentRow - 1, currentCol, '?');
+              next.setDistEnd(next.calcDist(end));
+              priorityqueue.add(next);
+            } else if (board.get(currentRow - 1, currentCol) == 'E') {
               priorityqueue.add(next);
             }
           }
@@ -162,16 +193,16 @@ public class MazeSolver {
         current = priorityqueue.next();
         currentRow = current.getRow();
         currentCol = current.getCol();
+        System.out.println(board.toString(25));
       }
       if (board.get(currentRow, currentCol) == 'E') {
         while (current.getPrevious() != null) {
-          answer.set(currentRow, currentCol, '@');
+          board.set(currentRow, currentCol, '@');
           current = current.getPrevious();
           currentRow = current.getRow();
           currentCol = current.getCol();
         }
       }
-      System.out.println(answer);
     } else
     if (style == 3) {
       //A*
@@ -189,54 +220,71 @@ public class MazeSolver {
           if (i == 0) {
             Location next = new Location(currentRow, currentCol + 1, current, 0, 0, true);
             if (isEmpty(next)) {
+              board.set(currentRow, currentCol + 1, '?');
               next.setDistStart(next.calcDist(start));
               next.setDistEnd(next.calcDist(end));
               priorityqueue.add(next);
+            } else if (board.get(currentRow, currentCol + 1) == 'E') {
+              priorityqueue.add(next);
+              break;
             }
           } else
           if (i == 1) {
             Location next = new Location(currentRow, currentCol - 1, current, 0, 0, true);
             if (isEmpty(next)) {
+              board.set(currentRow, currentCol - 1, '?');
               next.setDistStart(next.calcDist(start));
               next.setDistEnd(next.calcDist(end));
               priorityqueue.add(next);
+            } else if (board.get(currentRow, currentCol - 1) == 'E') {
+              priorityqueue.add(next);
+              break;
             }
           } else
           if (i == 2) {
             Location next = new Location(currentRow + 1, currentCol, current, 0, 0, true);
             if (isEmpty(next)) {
+              board.set(currentRow + 1, currentCol, '?');
               next.setDistStart(next.calcDist(start));
               next.setDistEnd(next.calcDist(end));
               priorityqueue.add(next);
+            } else if (board.get(currentRow + 1, currentCol) == 'E') {
+              priorityqueue.add(next);
+              break;
             }
           } else
           if (i == 3) {
             Location next = new Location(currentRow - 1, currentCol, current, 0, 0, true);
             if (isEmpty(next)) {
+              board.set(currentRow - 1, currentCol, '?');
               next.setDistStart(next.calcDist(start));
               next.setDistEnd(next.calcDist(end));
               priorityqueue.add(next);
+            } else if (board.get(currentRow - 1, currentCol) == 'E') {
+              priorityqueue.add(next);
+              break;
             }
           }
         }
         current = priorityqueue.next();
         currentRow = current.getRow();
         currentCol = current.getCol();
+        System.out.println(board.toString(50));
       }
       if (board.get(currentRow, currentCol) == 'E') {
         while (current.getPrevious() != null) {
-          answer.set(currentRow, currentCol, '@');
+          board.set(currentRow, currentCol, '@');
           current = current.getPrevious();
           currentRow = current.getRow();
           currentCol = current.getCol();
         }
       }
-      System.out.println(answer);
     }
   }
 
   private boolean isEmpty(Location location) {
-    return board.get(location.getRow(), location.getCol()) == ' ' || board.get(location.getRow(), location.getCol()) == 'E';
+    return board.get(location.getRow(), location.getCol()) == ' ' ||
+    board.get(location.getRow(), location.getCol()) == '?';
   }
 
   public String toString() {
