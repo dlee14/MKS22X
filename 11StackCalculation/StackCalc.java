@@ -1,7 +1,7 @@
 import java.util.*;
 
 public class StackCalc {
-  public double eval(String input) {
+  public static double eval(String input) {
     String[] token = input.split(" ");
     Stack<Double> stack = new Stack<Double>();
     for (int i = 0; i < token.length; i++) {
@@ -14,11 +14,11 @@ public class StackCalc {
     return stack.pop();
   }
 
-  private boolean isOp(String input) {
+  private static boolean isOp(String input) {
     return (input.equals("+") || input.equals("-") || input.equals("/") || input.equals("*"));
   }
 
-  private double apply(String operation, double a, double b) {
+  private static double apply(String operation, double a, double b) {
     if (operation.equals("+")) {
       return b + a;
     } else if (operation.equals("-")) {
@@ -28,5 +28,9 @@ public class StackCalc {
     } else {
       return b / a;
     }
+  }
+
+  public static void main(String[] args) {
+    System.out.println(StackCalc.eval("0"));
   }
 }
