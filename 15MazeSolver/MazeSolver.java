@@ -63,7 +63,6 @@ public class MazeSolver {
         current = frontierstack.next();
         currentRow = current.getRow();
         currentCol = current.getCol();
-        System.out.println(board.toString(25));
       }
       if (board.get(currentRow, currentCol) == 'E') {
         while (current.getPrevious() != null) {
@@ -126,7 +125,6 @@ public class MazeSolver {
         current = frontierqueue.next();
         currentRow = current.getRow();
         currentCol = current.getCol();
-        System.out.println(board.toString(25));
       }
       if (board.get(currentRow, currentCol) == 'E') {
         while (current.getPrevious() != null) {
@@ -193,7 +191,6 @@ public class MazeSolver {
         current = priorityqueue.next();
         currentRow = current.getRow();
         currentCol = current.getCol();
-        System.out.println(board.toString(25));
       }
       if (board.get(currentRow, currentCol) == 'E') {
         while (current.getPrevious() != null) {
@@ -269,7 +266,6 @@ public class MazeSolver {
         current = priorityqueue.next();
         currentRow = current.getRow();
         currentCol = current.getCol();
-        System.out.println(board.toString(50));
       }
       if (board.get(currentRow, currentCol) == 'E') {
         while (current.getPrevious() != null) {

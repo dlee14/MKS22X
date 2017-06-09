@@ -2,8 +2,8 @@ import java.util.*;
 
 public class Driver {
   public static void main(String[] args) {
-    MazeSolver solver = new MazeSolver("data3.txt");
-    solver.solve(3);
-    System.out.println(solver);
+    MazeSolver s = new MazeSolver("data1.txt");
+    s.solve(1);
+    String ans = s.toString();
   }
 }
